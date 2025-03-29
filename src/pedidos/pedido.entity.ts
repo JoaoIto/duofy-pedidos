@@ -14,7 +14,7 @@ export class Pedido {
   @Column()
   descricao: string;
 
-  @Column()
+  @Column({ default: Status.PENDENTE })
   status: Status; // 'pendente' | 'processando' | 'concluído'
 
   @CreateDateColumn()
