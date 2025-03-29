@@ -38,8 +38,13 @@ export class PedidosController {
     return this.pedidosService.getPedidoById(id);
   }
 
-  @Delete(':id')
+  @Delete('/delete/:id')
   deletePedido(@Param('id') id: number): Promise<{ message: string }> {
     return this.pedidosService.deletePedido(id);
+  }
+
+  @Delete(':id')
+  desactivePedido(@Param('id') id: number): Promise<{ message: string }> {
+    return this.pedidosService.desativarPedido(id);
   }
 }

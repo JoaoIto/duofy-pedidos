@@ -19,4 +19,7 @@ export class Pedido {
 
   @CreateDateColumn()
   criadoEm: Date;
+
+  @Column({ default: true })
+  active: boolean;
 }
