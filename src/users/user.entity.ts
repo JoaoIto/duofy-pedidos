@@ -15,8 +15,4 @@ export class User {
 
   @Column({ default: Roles.USER })
   role: Roles;
-
-  validatePassword(password: string): boolean {
-    return bcrypt.compare(password, this.password);
-  }
 }
