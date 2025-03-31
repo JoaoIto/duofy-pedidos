@@ -35,8 +35,8 @@ export class PedidosController {
   @ApiResponse({ status: 201, description: 'Pedido criado com sucesso' })
   @ApiResponse({ status: 400, description: 'Erro de validação' })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
-  criarPedido(@Body() dto: CriarPedidoDto): Promise<Pedido> {
-    return this.pedidosService.create(dto);
+  criarPedido(@Body() dto: CriarPedidoDto, @Request() req): Promise<Pedido> {
+    return this.pedidosService.create(dto, req.user);
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -44,20 +44,21 @@ export class PedidosController {
   async editarPedido(
     @Param('id') id: number,
     @Body() dto: Partial<CriarPedidoDto>,
+    @Request() req,
   ): Promise<Pedido> {
-    return this.pedidosService.editarPedido(id, dto);
+    return this.pedidosService.editarPedido(id, dto, req.user);
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Get()
-  listarPedidos(): Promise<Pedido[]> {
-    return this.pedidosService.findAll();
+  listarPedidos(@Request() req): Promise<Pedido[]> {
+    return this.pedidosService.findAll(req.user);
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Get(':id')
-  obterPedido(@Param('id') id: number): Promise<Pedido> {
-    return this.pedidosService.getPedidoById(id);
+  obterPedido(@Param('id') id: number, @Request() req): Promise<Pedido> {
+    return this.pedidosService.getPedidoById(id, req.user);
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -69,7 +70,10 @@ export class PedidosController {
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Delete(':id')
-  desactivePedido(@Param('id') id: number): Promise<{ message: string }> {
-    return this.pedidosService.desativarPedido(id);
+  desactivePedido(
+    @Param('id') id: number,
+    @Request() req,
+  ): Promise<{ message: string }> {
+    return this.pedidosService.desativarPedido(id, req.user);
   }
 }
